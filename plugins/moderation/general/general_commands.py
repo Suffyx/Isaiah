@@ -30,6 +30,8 @@ from durations import Duration
 import core.utils as utils
 from core import Context
 
+from core import Isaiah
+
 from constants import BAN_COMMAND
 from constants import KICK_COMMAND
 from constants import WARN_COMMAND
@@ -84,9 +86,9 @@ class GeneralCommands(commands.Cog):
   """Initialize GeneralCommands Cog
      
      Parameters:
-        bot: discord.ext.commands.Bot - The bot on which the cog is loaded. Passed by setup function in plugins/moderation/__init__.py
+        bot: Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/moderation/__init__.py
   """
-  def __init__(self, bot: commands.Bot):
+  def __init__(self, bot: Isaiah):
     self.bot = bot
     
   @commands.command(BAN_COMMAND)
