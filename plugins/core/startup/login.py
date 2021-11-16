@@ -30,7 +30,7 @@ class Login(commands.Cog):
   """Initialize Login Cog
      
      Parameters:
-        bot: discord.ext.commands.Bot - The bot on which the cog is loaded. Passed by setup function in plugins/core/startup/__init__.py
+        bot: discord.ext.commands.Bot - The bot on which the cog is loaded. Passed by setup function in plugins/core/__init__.py
   """
   def __init__(self, bot: commands.Bot):
     self.bot = bot
