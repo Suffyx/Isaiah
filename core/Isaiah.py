@@ -28,7 +28,7 @@ import json
 import os
 
 from utils import __recursive_object_builder
-from utils import __build_database
+# from utils import __build_database
 
 class Isaiah(commands.AutoShardedBot):
   """Build and run base Isaiah class.
@@ -60,7 +60,7 @@ class Isaiah(commands.AutoShardedBot):
     }
     
     # makes sure that the database has all necessary attributes to run the bot properly
-    __build_database(self.db)
+#     __build_database(self.db)
 
     for ext in self.config.EXTENSIONS:
       await self.load_extension(ext)
