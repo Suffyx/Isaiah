@@ -23,6 +23,8 @@ Copyright (c) 2021 Suffyx Ltd
 import discord
 from discord.ext import commands
 
+from core import Isaiah
+
 from subprocess import call
 from os import chdir
 
@@ -30,9 +32,9 @@ class ErrorHandler(commands.Cog):
   """Initialize Error Cog
      
      Parameters:
-        bot: discord.ext.commands.Bot - The bot on which the cog is loaded. Passed by setup function in plugins/core/__init__.py
+        bot: core.Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/core/__init__.py
   """
-  def __init__(self, bot: commands.Bot):
+  def __init__(self, bot: Isaiah):
     self.bot = bot
     
   @commands.Cog.listener()
