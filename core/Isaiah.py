@@ -41,7 +41,7 @@ class Isaiah(commands.AutoShardedBot):
       intents = discord.Intents.all(),
       strip_after_prefix = True,
       case_insensitive = True,
-      chunk_guild_at_startup = False,
+      chunk_guilds_at_startup = False,
       activity = discord.Activity(type=discord.ActivityType.listening, name="-help | -setup"),
       case_insensitive = True,
       *args,
