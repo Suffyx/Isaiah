@@ -1,3 +1,5 @@
+DEFAULT_REASON = "violating the rules or guidelines."
+
 BAN_COMMAND = {
   "name": "ban",
   "aliases": [
