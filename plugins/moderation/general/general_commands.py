@@ -195,7 +195,7 @@ class GeneralCommands(commands.Cog):
       )
     )
     
-  @commands.command(KICK_COMMAND)
+  @commands.command(MUTE_COMMAND)
   @commands.has_permissions(kick_members = True)
   async def _mute(self, ctx: Context, member: typing.Union[discord.Member, str], duration: str= None, *, reason: str = None):
     """Kicks a given member for a given reason
