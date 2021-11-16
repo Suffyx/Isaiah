@@ -1,0 +1,11 @@
+{
+  "TOKEN": "insert bot token here",
+  "PREFIX_TABLE_PATH": "data/prefixes.json",
+  "GUILD_TABLE_PATH": "data/guilds.json",
+  "USER_TABLE_PATH": "data/user.json"
+  "EXTENSIONS": [
+    "plugins.core",
+    "plugins.moderation"
+  ],
+  "DEFAULT_DURATION": "1 minute"
+}
