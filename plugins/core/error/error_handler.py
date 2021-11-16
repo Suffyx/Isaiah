@@ -28,23 +28,26 @@ from core import Isaiah
 from subprocess import call
 from os import chdir
 
+
 class ErrorHandler(commands.Cog):
-  """Initialize Error Cog
-     
-     Parameters:
-        bot: core.Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/core/__init__.py
-  """
-  def __init__(self, bot: Isaiah):
-    self.bot = bot
-    
-  @commands.Cog.listener()
-  async def on_ready(ctx: Context, error: Exception):
-    """Run script 'isaiahError.sh', and pass the error, so that error messages continue output even if Isaiah is silenced or made a background process.
-      
-       Parameters:
-          ctx: core.Context - The context for the command which produced the error
-          error: Exception - The exception which was produced by the command. Not to be confused with outputs of the core.Context.error() method
+    """Initialize Error Cog
+
+    Parameters:
+       bot: core.Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/core/__init__.py
     """
-    chdir("../../../scripts/")
-    call(f"./isaiahError.sh '{error.replace("'", "\'")}'", shell=True)
-    chdir("../plugins/core/error/")
+
+    def __init__(self, bot: Isaiah):
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_ready(ctx: Context, error: Exception):
+        """Run script 'isaiahError.sh', and pass the error, so that error messages continue output even if Isaiah is silenced or made a background process.
+
+        Parameters:
+           ctx: core.Context - The context for the command which produced the error
+           error: Exception - The exception which was produced by the command. Not to be confused with outputs of the core.Context.error() method
+        """
+        chdir("../../../scripts/")
+        i = error.replace("'", "\\'")
+        call(f"./isaiahError.sh '{i}'", shell=True)
+        chdir("../plugins/core/error/")

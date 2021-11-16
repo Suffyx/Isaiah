@@ -28,18 +28,20 @@ from core import Isaiah
 from subprocess import call
 from os import chdir
 
+
 class Login(commands.Cog):
-  """Initialize Login Cog
-     
-     Parameters:
-        bot: Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/core/__init__.py
-  """
-  def __init__(self, bot: Isaiah):
-    self.bot = bot
-    
-  @commands.Cog.listener()
-  async def on_ready():
-    """Run script 'initializedIsaiah.sh' so that startup messages continue output even if Isaiah is silenced or made a background process."""
-    chdir("../../../scripts/")
-    call("./initializedIsaiah.sh", shell=True)
-    chdir("../plugins/core/startup/")
+    """Initialize Login Cog
+
+    Parameters:
+       bot: Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/core/__init__.py
+    """
+
+    def __init__(self, bot: Isaiah):
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_ready():
+        """Run script 'initializedIsaiah.sh' so that startup messages continue output even if Isaiah is silenced or made a background process."""
+        chdir("../../../scripts/")
+        call("./initializedIsaiah.sh", shell=True)
+        chdir("../plugins/core/startup/")

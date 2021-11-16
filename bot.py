@@ -22,18 +22,21 @@ from core import Isaiah
 
 bot = Isaiah()
 
+
 @bot.before_invoke
 async def bot_before_invoke(ctx):
-  # makes sure commands for Isaiah are only passed in guilds
-  if not ctx.guild:
-    return
+    # makes sure commands for Isaiah are only passed in guilds
+    if not ctx.guild:
+        return
 
-  if ctx.guild is not None:
-    if not ctx.guild.chunked:
-      await ctx.guild.chunk()
+    if ctx.guild is not None:
+        if not ctx.guild.chunked:
+            await ctx.guild.chunk()
+
 
 def main():
-  bot.run(bot.config.TOKEN)  
+    bot.run(bot.config.TOKEN)
+
 
 if __name__ == "__main__":
-  main()
+    main()
