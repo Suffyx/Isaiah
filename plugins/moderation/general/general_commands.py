@@ -202,8 +202,9 @@ class GeneralCommands(commands.Cog):
     
        Parameters:
           ctx: core.Context - The context of the command that was raised
-          member: typing.Union[discord.Member, str] - The member that will be kicked
-          reason: str - The reason the member will be kicked for. Defaults to constants.DEFAULT_REASON
+          member: typing.Union[discord.Member, str] - The member that will be muted
+          reason: str - The reason the member will be muted for. Defaults to constants.DEFAULT_REASON
+          duration: str - The duration that the member will be muted for. Defaults to Isaiah.config.DEFAULT_DURATION
     """
     if reason is None:
       reason = DEFAULT_REASON
