@@ -9,5 +9,5 @@ def setup(bot: commands.Bot):
      Parameters:
         bot: discord.ext.commands.Bot - The bot the cog is loaded onto. Passed by discord.py
   """
-  bot.add_cog(CommandError(bot))
+  bot.add_cog(ErrorHandler(bot))
   bot.add_cog(Login(bot))
