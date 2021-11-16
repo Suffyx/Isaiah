@@ -29,7 +29,7 @@ import os
 
 from utils import __recursive_object_builder
 
-from .context import Context
+from .Context import Context
 # from utils import __build_database
 
 class Isaiah(commands.AutoShardedBot):
@@ -119,5 +119,10 @@ class Isaiah(commands.AutoShardedBot):
       ctx = await self.get_context(message, Context)
       await self.invoke(ctx)
 
-  async def on_message(self, message):
-      await self.process_commands(message)
+  async def on_message(self, message: discord.Message):
+    """The general on_message event listener. When overridden, commands will not register unless this function, or any equivalent is likewise called.
+    
+       Parameters:
+          message: discord.Message - The message registered by the listener.
+    """
+    await self.process_commands(message)
