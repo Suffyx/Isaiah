@@ -22,17 +22,18 @@ Copyright (c) 2021 Suffyx Ltd.
 
 
 def __recursive_object_builder(d):
-  if isinstance(d, list):
-    d = [__recursive_object_builder(x) for x in d]
+    if isinstance(d, list):
+        d = [__recursive_object_builder(x) for x in d]
 
-  if not isinstance(d, dict):
-    return d
+    if not isinstance(d, dict):
+        return d
 
-  class Obj:
-    pass
+    class Obj:
+        pass
 
-  obj = Obj()
+    obj = Obj()
 
-  for o in d: obj.__dict__[o] = __recursive_object_builder(d[o])
+    for o in d:
+        obj.__dict__[o] = __recursive_object_builder(d[o])
 
-  return obj
+    return obj

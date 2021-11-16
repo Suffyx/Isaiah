@@ -20,6 +20,8 @@ DEALINGS IN THE SOFTWARE.
 Copyright (c) 2021 Suffyx Ltd.
 """
 
+from __future__ import annotations
+
 import discord
 from discord.ext import commands
 
