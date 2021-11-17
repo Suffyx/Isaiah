@@ -7,5 +7,9 @@
     "plugins.core",
     "plugins.moderation"
   ],
-  "DEFAULT_DURATION": "1 minute"
+  "DEFAULT_DURATION": "1 minute",
+  "SECRET_KEY": "h0iSjfp0PA50KoLZ",
+  "DISCORD_CLIENT_ID": 746662527272809292,
+  "DISCORD_CLIENT_SECRET": "ofsJy4up0N1nMvHk_KN8c0PDmTUMASPsJ_Jy4up0N1nMvHk",
+  "DISCORD_REDIRECT_URI": "https://www.bullshit.software/callback"
 }
