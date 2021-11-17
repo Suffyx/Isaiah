@@ -1,37 +1,52 @@
-## Welcome to GitHub Pages
+## Welcome to the docs for Isiaiah
 
-You can use the [editor on GitHub](https://github.com/Suffyx/Isaiah/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+The main hub for documentation regarding Isiaiah.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Examples
 
-### Markdown
+All examples are within the style guidelines of codestyle black.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+__**Isaiah Class Usage**__
+```py
+from core import Isaiah
+from core import Context
 
-```markdown
-Syntax highlighted code block
+bot = Isaiah()
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+__**Context Class Usage**__
+```py
+@bot.command()
+async def hi(ctx: Context):
+    """Returns hello.
+    
+    Parameters:
+      ctx: core.Context - The command context.
+    """
+    if ctx.message.content != "hi":
+      return ctx.error("Error: Does not compute")
+    
+    return ctx.send("Hello!")
+```
 
-### Jekyll Themes
+__**Basic Usage**__
+```py
+from core import Isaiah
+from core import Context
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Suffyx/Isaiah/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+bot = Isaiah()
 
-### Support or Contact
+@bot.command()
+async def hi(ctx: Context):
+    """Returns hello.
+    
+    Parameters:
+      ctx: core.Context - The command context.
+    """
+    if ctx.message.content != "hi":
+      return ctx.error("Error: Does not compute")
+    
+    return ctx.send("Hello!")
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
