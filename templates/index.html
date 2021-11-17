@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Bullshit</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css" />
+    <link rel="icon" href="assets/favicon.ico">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7G5M7434D1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-7G5M7434D1');
+</script>
+  </head>
+  <header id = "page-header">
+    <a href=".."><img src='assets/favicon.ico'></a>
+    <center>
+    <h1> The Dashboard for Isaiah </h1>
+    <p1> A website made to host the dashboard for the Discord Bot Isaiah.</p1>
+    </center>
+  </header>
+  <div class = "sidenav">
+    {% if not authorzed %}
+    <h1 class="sidebar-title"> Login:  </h1>
+    <hr>
+    <a href="/login"><button class="library-button"> Login </button></a>
+    {% else %}
+    <h1 class="sidebar-title"> Hubs:  </h1>
+    <hr>
+    <a href="/dashboard"><button> Open Dashboard </button></a>
+    {% endif %}}
+  </div>
