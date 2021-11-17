@@ -8,9 +8,9 @@ An all use Discord bot written in Python.
 ## Roadmap
 
 - [X] Make core.Isaiah.db a property as opposed to an attribute so that database syncs and closures do not cause adverse effects.
-- [ ] Write dashboard in Quart
-- [ ] Make base web templates for Quart
+- [X] Write dashboard in Quart
+- [X] Make base web templates for Quart
 - [ ] Finish moderation commands
 - [ ] Ensure that all code in within black style guidelines
 - [ ] Ensure that all files contain necessay licensing header
-- [ ] Create Gitub pages
+- [X] Create Gitub pages
