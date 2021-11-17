@@ -32,108 +32,113 @@ import os
 from utils import __recursive_object_builder
 
 from .Context import Context
+
 # from utils import __build_database
 
+
 class Isaiah(commands.AutoShardedBot):
-  """Build and run base Isaiah class.
-  
-     Child of `discord.ext.commands.AutoShardedBot`
-  """
-  def __init__(self, *args, **kwargs):
-    super().__init__(
-      command_prefix = self.__get_prefix,
-      intents = discord.Intents.all(),
-      strip_after_prefix = True,
-      case_insensitive = True,
-      chunk_guilds_at_startup = False,
-      activity = discord.Activity(type=discord.ActivityType.listening, name="-help | -setup"),
-      case_insensitive = True,
-      *args,
-      **kwargs
-    )
-    
-    self.__default_prefix = self.config.DEFAULT_PREFIX
-    
-    self.__config_state = False
-    self.__config = None
+    """Build and run base Isaiah class.
 
-#     self.db = {
-#       "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
-#       "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
-#       "users": shelve.open(self.config.USER_TABLE_PATH)
-#     }
-    
-    # makes sure that the database has all necessary attributes to run the bot properly
-#     __build_database(self.db)
-
-    for ext in self.config.EXTENSIONS:
-      await self.load_extension(ext)
-      
-  @property
-  def db(self):
-    """Returns a dictionary of open shelves."""
-    return {
-      "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
-      "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
-      "users": shelve.open(self.config.USER_TABLE_PATH)
-    }
-
-  @property
-  def config(self):
-    """Build and return config.json as an object."""
-    # returns config object that has already been loaded if it has been loaded in the past
-    if self.__config_state:
-      return self.__config
-    with open(os.getenv("CONFIG_PATH")) as f:
-      config_obj = __recursive_object_builder(json.load(f))
-
-    self.__config_state = True
-    self.__config = config_obj
-    return config_obj
-
-  def __get_prefix(self, message: discord.Message):
-    """Returns a guild's set prefix or the default prefix.
-    
-       Parameters:
-          message: discord.Message - The context message for the prefix.
+    Child of `discord.ext.commands.AutoShardedBot`
     """
-    if not message.guild:
-      return self.__default_prefix
-    
-    elif str(message.guild.id) not in self.db['prefixes']:
-      return self.__default_prefix
-    
-    else:
-      return self.db['prefixes'][str(message.guild.id)] 
-      
-  async def process_commands(self, message: Message) -> None:
-      """|coro|
-      
-      This function processes the commands that have been registered
-      to the bot and other groups. Without this coroutine, none of the
-      commands will be triggered.
-      By default, this coroutine is called inside the :func:`.on_message`
-      event. If you choose to override the :func:`.on_message` event, then
-      you should invoke this coroutine as well.
-      This is built using other low level tools, and is equivalent to a
-      call to :meth:`~.Bot.get_context` followed by a call to :meth:`~.Bot.invoke`.
-      This also checks if the message's author is a bot and doesn't
-      call :meth:`~.Bot.get_context` or :meth:`~.Bot.invoke` if so.
-      Parameters
-      -----------
-      message: :class:`discord.Message`
-          The message to process commands for.
-      """
-      if message.author.bot:
-          return
 
-      ctx = await self.get_context(message, Context)
-      await self.invoke(ctx)
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+            command_prefix=self.__get_prefix,
+            intents=discord.Intents.all(),
+            strip_after_prefix=True,
+            case_insensitive=True,
+            chunk_guilds_at_startup=False,
+            activity=discord.Activity(
+                type=discord.ActivityType.listening, name=f"{self.config.DEFAULT_PREFIX}help"
+            ),
+            case_insensitive=True,
+            *args,
+            **kwargs
+        )
 
-  async def on_message(self, message: discord.Message):
-    """The general on_message event listener. When overridden, commands will not register unless this function, or any equivalent is likewise called.
-    
-       Parameters:
-          message: discord.Message - The message registered by the listener.
-    """
-    await self.process_commands(message)
+        self.__default_prefix = self.config.DEFAULT_PREFIX
+
+        self.__config_state = False
+        self.__config = None
+
+        #     self.db = {
+        #       "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
+        #       "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
+        #       "users": shelve.open(self.config.USER_TABLE_PATH)
+        #     }
+
+        # makes sure that the database has all necessary attributes to run the bot properly
+        #     __build_database(self.db)
+
+        for ext in self.config.EXTENSIONS:
+            await self.load_extension(ext)
+
+    @property
+    def db(self):
+        """Returns a dictionary of open shelves."""
+        return {
+            "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
+            "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
+            "users": shelve.open(self.config.USER_TABLE_PATH),
+        }
+
+    @property
+    def config(self):
+        """Build and return config.json as an object."""
+        # returns config object that has already been loaded if it has been loaded in the past
+        if self.__config_state:
+            return self.__config
+        with open(os.getenv("CONFIG_PATH")) as f:
+            config_obj = __recursive_object_builder(json.load(f))
+
+        self.__config_state = True
+        self.__config = config_obj
+        return config_obj
+
+    def __get_prefix(self, message: discord.Message):
+        """Returns a guild's set prefix or the default prefix.
+
+        Parameters:
+           message: discord.Message - The context message for the prefix.
+        """
+        if not message.guild:
+            return self.__default_prefix
+
+        elif str(message.guild.id) not in self.db["prefixes"]:
+            return self.__default_prefix
+
+        else:
+            return self.db["prefixes"][str(message.guild.id)]
+
+    async def process_commands(self, message: Message) -> None:
+        """|coro|
+
+        This function processes the commands that have been registered
+        to the bot and other groups. Without this coroutine, none of the
+        commands will be triggered.
+        By default, this coroutine is called inside the :func:`.on_message`
+        event. If you choose to override the :func:`.on_message` event, then
+        you should invoke this coroutine as well.
+        This is built using other low level tools, and is equivalent to a
+        call to :meth:`~.Bot.get_context` followed by a call to :meth:`~.Bot.invoke`.
+        This also checks if the message's author is a bot and doesn't
+        call :meth:`~.Bot.get_context` or :meth:`~.Bot.invoke` if so.
+        Parameters
+        -----------
+        message: :class:`discord.Message`
+            The message to process commands for.
+        """
+        if message.author.bot:
+            return
+
+        ctx = await self.get_context(message, Context)
+        await self.invoke(ctx)
+
+    async def on_message(self, message: discord.Message):
+        """The general on_message event listener. When overridden, commands will not register unless this function, or any equivalent is likewise called.
+
+        Parameters:
+           message: discord.Message - The message registered by the listener.
+        """
+        await self.process_commands(message)

@@ -22,19 +22,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from core import Isaiah
-
-from plugins.core.error import ErrorHandler
-from plugins.core.startup import Login
-from plugins.core.help import HelpCommand
-
-
-def setup(bot: Isaiah):
-    """Sets up the cogs from the core module.
-
-    Parameters:
-       bot: core.Isaiah - The bot the cog is loaded onto. Passed by discord.py
-    """
-    bot.add_cog(ErrorHandler(bot))
-    bot.add_cog(Login(bot))
-    bot.add_cog(HelpCommand(bot))
+from plugins.core.help.help_command import HelpCommand
