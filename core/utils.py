@@ -267,7 +267,7 @@ def __set_muted_role(muted_role_id: str, guild_id: str, bot: Isaiah):
     self.bot.db["guilds"].close()
 
 async def get_muted_role(ctx: Context, bot: Isaiah):
-    """Sets the muted role for a guild.
+    """Gets the muted role for a guild.
 
     Parameters:
        ctx: Context - The context for the mute command
