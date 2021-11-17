@@ -6,7 +6,7 @@ The main hub for documentation regarding Isiaiah.
 
 All examples are within the style guidelines of codestyle black.
 
-__**Isaiah Class Usage**__
+__Isaiah Class Usage__
 ```py
 from core import Isaiah
 from core import Context
@@ -15,7 +15,7 @@ bot = Isaiah()
 
 ```
 
-__**Context Class Usage**__
+__Context Class Usage__
 ```py
 @bot.command()
 async def hi(ctx: Context):
@@ -30,7 +30,7 @@ async def hi(ctx: Context):
     return ctx.send("Hello!")
 ```
 
-__**Basic Usage**__
+__Basic Usage__
 ```py
 from core import Isaiah
 from core import Context
