@@ -57,17 +57,26 @@ class Isaiah(commands.AutoShardedBot):
     self.__config_state = False
     self.__config = None
 
-    self.db = {
-      "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
-      "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
-      "users": shelve.open(self.config.USER_TABLE_PATH)
-    }
+#     self.db = {
+#       "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
+#       "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
+#       "users": shelve.open(self.config.USER_TABLE_PATH)
+#     }
     
     # makes sure that the database has all necessary attributes to run the bot properly
 #     __build_database(self.db)
 
     for ext in self.config.EXTENSIONS:
       await self.load_extension(ext)
+      
+  @property
+  def db(self):
+    """Returns a dictionary of open shelves."""
+    return {
+      "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
+      "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
+      "users": shelve.open(self.config.USER_TABLE_PATH)
+    }
 
   @property
   def config(self):
