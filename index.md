@@ -50,3 +50,4 @@ async def hi(ctx: Context):
     return ctx.send("Hello!")
 ```
 
+Copyright (c) 2021-Present Suffyx
