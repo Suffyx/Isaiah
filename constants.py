@@ -62,5 +62,14 @@ MUTE_COMMAND = {
 }
 
 
+HELP_COMMAND = {
+    "name": "help",
+    "aliases": ["h"],
+    "brief": "Returns a list of commands.",
+    "help": "Returns a list of commands or information on a specific command.",
+    "description": "Returns a list of commands or information on a specific command.",
+    "usage": "<command: optional>"
+}
+
 class Colour:
     RED = 0xE34E3D
