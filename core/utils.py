@@ -26,39 +26,17 @@ import discord
 from .Context import Context
 from .Isaiah import Isaiah
 
+from typing import Callable
 
-def __recursive_object_builder(d):
-    """Returns a dictionary as an object class.
-
-    Parameters:
-      d: dict - The dictionary whose keys and values will become an object.
-    """
-    if isinstance(d, list):
-        d = [__recursive_object_builder(x) for x in d]
-
-    if not isinstance(d, dict):
-        return d
-
-    class Obj:
-        pass
-
-    obj = Obj()
-
-    for o in d:
-        obj.__dict__[o] = __recursive_object_builder(d[o])
-
-    return obj
-
-
-def __func_check(check: bool, function: func, *args, **kwargs):
+def __func_check(check: bool, function: Callable, *args, **kwargs):
     """Runs a function if a given check is valid.
 
     Parameters:
        check: bool - What is checked before the function is run
-       function: func - The function run if the check is True
+       function: Callable - The function run if the check is True
     """
     if check:
-        func(args, kwargs)
+        function(args, kwargs)
 
 
 def __add_guild_to_db(guild_id: str, bot: Isaiah):
@@ -99,7 +77,8 @@ def add_ban(member: discord.Member, ctx: Context, bot: Isaiah):
 
     __database_check(str(ctx.guild.id), bot)
 
-    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
 
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)] = {}
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['type'] = "ban"
@@ -130,7 +109,8 @@ def add_kick(member: discord.Member, ctx: Context, bot: Isaiah):
 
     __database_check(str(ctx.guild.id), bot)
 
-    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
 
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)] = {}
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['type'] = "kick"
@@ -161,7 +141,8 @@ def add_warn(member: discord.Member, ctx: Context, bot: Isaiah):
 
     __database_check(str(ctx.guild.id), bot)
 
-    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
 
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)] = {}
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['type'] = "warn"
@@ -181,7 +162,7 @@ def add_warn(member: discord.Member, ctx: Context, bot: Isaiah):
     bot.db['guilds'].close()
 
 
-def add_ban(member: discord.Member, ctx: Context, bot: Isaiah):
+def add_mute(member: discord.Member, ctx: Context, duration: str, bot: Isaiah):
     """Adds a mute to the database for a member.
 
     Parameters:
@@ -193,10 +174,11 @@ def add_ban(member: discord.Member, ctx: Context, bot: Isaiah):
 
     __database_check(str(ctx.guild.id), bot)
 
-    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
+    case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
 
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)] = {}
-    bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['type'] = "ban"
+    bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['type'] = "mute"
 
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['member'] = {}
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['member']['name'] = member.user

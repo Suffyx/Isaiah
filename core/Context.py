@@ -53,8 +53,6 @@ if TYPE_CHECKING:
 
 __all__ = ("Context",)
 
-MISSING: Any = discord.utils.MISSING
-
 
 T = TypeVar("T")
 BotT = TypeVar("BotT", bound="Union[Bot, Isaiah]")
@@ -128,12 +126,12 @@ class Context(discord.abc.Messageable, Generic[BotT]):
         message: Message,
         bot: BotT,
         view: StringView,
-        args: List[Any] = MISSING,
-        kwargs: Dict[str, Any] = MISSING,
+        args,
+        kwargs,
         prefix: Optional[str] = None,
         command: Optional[Command] = None,
         invoked_with: Optional[str] = None,
-        invoked_parents: List[str] = MISSING,
+        invoked_parents,
         invoked_subcommand: Optional[Command] = None,
         subcommand_passed: Optional[str] = None,
         command_failed: bool = False,

@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "bot.py", line 25, in <module>
+    from core import Isaiah
+  File "/home/runner/Isaiah-2/core/__init__.py", line 25, in <module>
+    from .Isaiah import Isaiah
+  File "/home/runner/Isaiah-2/core/Isaiah.py", line 57
+    case_insensitive=True,
+    ^
+SyntaxError: keyword argument repeated
+Traceback (most recent call last):
+  File "bot.py", line 25, in <module>
+    from core import Isaiah
+  File "/home/runner/Isaiah-2/core/__init__.py", line 25, in <module>
+    from .Isaiah import Isaiah
+  File "/home/runner/Isaiah-2/core/Isaiah.py", line 76
+    await self.load_extension(ext)
+    ^
+SyntaxError: 'await' outside async function
+Traceback (most recent call last):
+  File "bot.py", line 25, in <module>
+    from core import Isaiah
+  File "/home/runner/Isaiah-2/core/__init__.py", line 25, in <module>
+    from .Isaiah import Isaiah
+  File "/home/runner/Isaiah-2/core/Isaiah.py", line 34, in <module>
+    from utils import __recursive_object_builder
+ModuleNotFoundError: No module named 'utils'

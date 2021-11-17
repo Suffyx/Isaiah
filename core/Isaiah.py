@@ -31,12 +31,31 @@ import shelve
 import json
 import os
 
-from utils import __recursive_object_builder
-
 from .Context import Context
 
 # from utils import __build_database
 
+def __recursive_object_builder(d):
+    """Returns a dictionary as an object class.
+
+    Parameters:
+      d: dict - The dictionary whose keys and values will become an object.
+    """
+    if isinstance(d, list):
+        d = [__recursive_object_builder(x) for x in d]
+
+    if not isinstance(d, dict):
+        return d
+
+    class Obj:
+        pass
+
+    obj = Obj()
+
+    for o in d:
+        obj.__dict__[o] = __recursive_object_builder(d[o])
+
+    return obj
 
 class Isaiah(commands.AutoShardedBot):
     """Build and run base Isaiah class.
@@ -45,6 +64,9 @@ class Isaiah(commands.AutoShardedBot):
     """
 
     def __init__(self, *args, **kwargs):
+        self.__config_state = False
+        self.__config = None
+        
         super().__init__(
             command_prefix=self.__get_prefix,
             intents=discord.Intents.all(),
@@ -54,15 +76,11 @@ class Isaiah(commands.AutoShardedBot):
             activity=discord.Activity(
                 type=discord.ActivityType.listening, name=f"{self.config.DEFAULT_PREFIX}help"
             ),
-            case_insensitive=True,
             *args,
             **kwargs
         )
 
         self.__default_prefix = self.config.DEFAULT_PREFIX
-
-        self.__config_state = False
-        self.__config = None
 
         #     self.db = {
         #       "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
@@ -74,7 +92,7 @@ class Isaiah(commands.AutoShardedBot):
         #     __build_database(self.db)
 
         for ext in self.config.EXTENSIONS:
-            await self.load_extension(ext)
+            self.load_extension(ext)
 
     @property
     def db(self):
