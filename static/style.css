@@ -1,0 +1,268 @@
+body {
+  padding-bottom: 15px;
+  padding: 15px;
+  background-color: #332f2e;
+  color: #b5b1a5;
+  font-family: Trebuchet MS;
+  border-radius: 5px;
+  border: 1px solid grey;
+  margin: 5%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  margin-top: 0%;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+border:hover {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0);
+}
+
+html {
+  padding-top: 0%;
+  padding-left: 5%;
+  padding-right: 5%;
+  border-radius: 5px;
+  border: 1px solid grey;
+  margin-top: 0%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+html:hover {
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0);
+}
+
+header {
+  padding-bottom: .5%;
+  padding-top: 0.5%;
+  border-bottom:1px solid #666666;
+  background-color: #332f2e;
+  color: #637acf;
+  font-family: Trebuchet MS;
+}
+
+h1 {
+  color: #d4d4d4;
+}
+
+h2 {
+  color: #d4d4d4;
+}
+
+h3 {
+  color: #d4d4d4;
+}
+
+h1:hover {
+  text-decoration: underline;
+  text-decoration-color: currentcolor;
+}
+
+h2:hover {
+  text-decoration: underline;
+  text-decoration-color: currentcolor;   
+}
+
+h3:hover {
+  text-decoration: underline;
+  text-decoration-color: currentcolor;
+}
+
+blockquote {
+  padding: 2px;
+  color: #ffffff;
+  background-color: #4a4a4a;
+  margin: 2px;
+  margin-left: 3px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-left: 3px solid #ababab;
+  padding-left: 7px;
+}
+
+a {
+  color: #637acf;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #637acf;
+  padding-bottom: 1px;
+  text-decoration: underline;
+  text-decoration-color: currentcolor;
+}
+
+button {
+  padding: 6px;
+  font-size: 20;
+  color: white;
+  border-radius: 12px;
+  transition-duration: 0.4s;
+  background-color: #eb4034;
+  border: 0px;
+}
+
+button:hover {
+  background-color: white;
+  color: #eb4034;
+}
+
+.guild-div {
+  padding-bottom: 15px;
+  padding: 15px;
+  background-color: #403f3d;
+  color: #637acf;
+  font-family: Trebuchet MS;
+  border-radius: 5px;
+  border: 1px solid grey;
+  margin: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.guild-div:hover {
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.2);
+}
+
+.guild-card {
+  margin-top: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid grey;
+  margin-bottom: 3px;
+}
+
+.guild-card:hover {
+  box-shadow: 0 6px 10px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.article-img {
+  width: 10%;
+  height: auto;
+  border-radius: 5px 5px 0 0;
+}
+
+.article-description {
+  color: #b5b1a5;
+  text-decoration: none;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.article-title {
+  color: #637acf;
+  padding-bottom: 3px;
+  font-size: 25px;
+}
+
+.article-title:hover {
+  padding-bottom: 3px;
+  color: #637acf;
+}
+
+.library-button {
+  padding: 6px;
+  font-size: 20;
+  color: white;
+  border-radius: 12px;
+  transition-duration: 0.4s;
+  background-color: rgb(110, 214, 40);
+  border: 0px;
+}
+
+.library-button:hover {
+  background-color: white;
+  color: rgb(110, 214, 40);
+}
+
+.article-link {
+  text-decoration: none;
+}
+
+.article-link:hover {
+  text-decoration: none;
+}
+
+.section-head {
+  color: #637acf;
+}
+
+.discussion-button {
+  background-color: #637acf;
+  color: white;
+  transition: 0.3s;
+}
+
+.discussion-button {
+  padding: 6px;
+  font-size: 20;
+  color: white;
+  border-radius: 12px;
+  transition-duration: 0.4s;
+  background-color: #637acf;
+  border: 0px;
+}
+
+.discussion-button:hover {
+  background-color: white;
+  color: #637acf;
+}
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+	top: 0;
+  width: 78.7%;
+  padding-top: 1%
+}
+
+.sticky + .content {
+  padding-top: 102px;
+}
+
+.page {
+  /* width: 100%; width of a div defaults to 100% like all block-elements */
+  margin: 0 auto;
+  padding: 0;
+  text-align: left;
+  height: 50px;
+}
+
+/* The sidebar menu */
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 10%; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: .25%;
+  padding-left: 0.25%;
+  background-color: #403f3d;
+}
+
+.sidebar-title {
+  color: #637acf;
+  padding-bottom: 3px;
+  font-size: 25px;
+}
+
+.home-button {
+  background-color: #8f6dc9;
+  color: white;
+  transition: 0.3s;
+}
+
+.home-button:hover {
+  background-color: white;
+  color: #8f6dc9;
+}
