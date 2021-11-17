@@ -126,7 +126,7 @@ class GeneralCommands(commands.Cog):
         except:
             raise BanException(member, ctx.guild)
 
-        id = utils.add_ban(member, ctx)
+        id = utils.add_ban(member, ctx, self.bot)
 
         await ctx.send(
             embed=discord.Embed(

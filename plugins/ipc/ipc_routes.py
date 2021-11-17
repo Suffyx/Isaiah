@@ -23,9 +23,10 @@ SOFTWARE.
 """
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, ipc
 
 from core import Isaiah
+from core import utils
 
 
 class Login(commands.Cog):
