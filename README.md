@@ -7,7 +7,7 @@ An all use Discord bot written in Python.
 
 ## Roadmap
 
-- [ ] Make core.Isaiah.config a property as opposed to an attribute so that database syncs and closures do not cause adverse effects.
+- [ ] Make core.Isaiah.db a property as opposed to an attribute so that database syncs and closures do not cause adverse effects.
 - [ ] Write dashboard in Quart
 - [ ] Make base web templates for Quart
 - [ ] Finish moderation commands
