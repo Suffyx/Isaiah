@@ -271,7 +271,7 @@ class GeneralCommands(commands.Cog):
             )
         )
         
-       if member.name.lower().endswith("s") === False:
-         name = member.name+"'s" 
-       else:
-         name = member.name+"'"
+#        if member.name.lower().endswith("s") === False:
+#          name = member.name+"'s" 
+#        else:
+#          name = member.name+"'"
