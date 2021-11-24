@@ -263,10 +263,15 @@ class GeneralCommands(commands.Cog):
                 description=f"**{member.user}** muted successfully.", color=Colour.RED
             )
         )
-
+        
         await member.send(
             embed=discord.Embed(
                 description=f"You've been muted in {ctx.guild} for {reason}. You will be unmuted in {duration}",
                 color=Colour.RED,
             )
         )
+        
+       if member.name.lower().endswith("s") === False:
+         name = member.name+"'s" 
+       else:
+         name = member.name+"'"
