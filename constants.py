@@ -23,53 +23,35 @@ SOFTWARE.
 """
 
 DEFAULT_REASON = "violating the rules or guidelines."
+DEFAULT_DURATION = "1 minute"
 
 BAN_COMMAND = {
     "name": "ban",
-    "aliases": ["b"],
-    "brief": "Bans a member from a server.",
-    "help": "Bans a member from a server for a given reason.",
     "description": "Bans a member from a server for a given reason.",
-    "usage": "<member> <reason>",
 }
 
 KICK_COMMAND = {
     "name": "kick",
-    "aliases": ["k"],
-    "brief": "Kicks a member from a server.",
-    "help": "Kicks a member from a server for a given reason.",
     "description": "Kicks a member from a server for a given reason.",
-    "usage": "<member> <reason>",
 }
 
 WARN_COMMAND = {
     "name": "warn",
-    "aliases": ["w"],
-    "brief": "Warns a member in a server.",
-    "help": "Warns a member in a server for a given reason.",
     "description": "Warns a member in a server for a given reason.",
-    "usage": "<member> <reason>",
 }
 
 
 MUTE_COMMAND = {
     "name": "mute",
-    "aliases": ["m"],
-    "brief": "Mutes a member in a server.",
-    "help": "Mutes a member in a server for a given reason.",
     "description": "Mutes a member in a server for a given reason, and duration.",
-    "usage": "<member> <reason> <duration>",
 }
 
 
 HELP_COMMAND = {
     "name": "help",
-    "aliases": ["h"],
-    "brief": "Returns a list of commands.",
-    "help": "Returns a list of commands or information on a specific command.",
     "description": "Returns a list of commands or information on a specific command.",
-    "usage": "<command: optional>"
 }
 
 class Colour:
     RED = 0xE34E3D
+    GREEN = 0x32A852
