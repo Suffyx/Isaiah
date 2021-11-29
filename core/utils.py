@@ -28,7 +28,7 @@ from .Isaiah import Isaiah
 
 from typing import Callable
 
-def __func_check(check: bool, function: Callable, *args, **kwargs):
+def func_check(check: bool, function: Callable, *args, **kwargs):
     """Runs a function if a given check is valid.
 
     Parameters:
@@ -39,7 +39,7 @@ def __func_check(check: bool, function: Callable, *args, **kwargs):
         function(args, kwargs)
 
 
-def __add_guild_to_db(guild_id: str, bot: Isaiah):
+def add_guild_to_db(guild_id: str, bot: Isaiah):
     """Adds a guild to the guilds database
 
     Parameters:
@@ -49,21 +49,23 @@ def __add_guild_to_db(guild_id: str, bot: Isaiah):
     bot.db['guilds'][str(guild.id)] = {}
     bot.db['guilds'][str(guild.id)]['cases'] = {}
     bot.db['guilds'][str(guild.id)]['case_num'] = 0
+
+    bot.dump("guilds")
     return
 
 
-def __database_check(guild_id: str, bot: Isaiah):
+def database_check(guild_id: str, bot: Isaiah):
     """Checks if a guild is registered for the guild's database.
 
     Parameters:
        guild_id: str - The guild you would like to check
        bot: Isaiah - The bot itself
     """
-    __func_check(
-        str(guild.id) not in bot.db["guilds"], __add_guild_to_db, guild_id, bot
+    func_check(
+        str(guild.id) not in bot.db["guilds"], add_guild_to_db, guild_id, bot
     )
 
-    bot.db["guilds"].close()
+    bot.dump("guilds")
 
 
 def add_ban(member: discord.Member, ctx: Context, bot: Isaiah):
@@ -75,7 +77,7 @@ def add_ban(member: discord.Member, ctx: Context, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    __database_check(str(ctx.guild.id), bot)
+    database_check(str(ctx.guild.id), bot)
 
     bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
     case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
@@ -95,7 +97,7 @@ def add_ban(member: discord.Member, ctx: Context, bot: Isaiah):
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['author']['name'] = ctx.author.user
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['id'] = ctx.author.id
 
-    bot.db['guilds'].close()
+    bot.dump("guilds")
 
 
 def add_kick(member: discord.Member, ctx: Context, bot: Isaiah):
@@ -107,7 +109,7 @@ def add_kick(member: discord.Member, ctx: Context, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    __database_check(str(ctx.guild.id), bot)
+    database_check(str(ctx.guild.id), bot)
 
     bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
     case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
@@ -127,7 +129,7 @@ def add_kick(member: discord.Member, ctx: Context, bot: Isaiah):
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['author']['name'] = ctx.author.user
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['id'] = ctx.author.id
 
-    bot.db["guilds"].close()
+    bot.dump("guilds")
 
 
 def add_warn(member: discord.Member, ctx: Context, bot: Isaiah):
@@ -139,7 +141,7 @@ def add_warn(member: discord.Member, ctx: Context, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    __database_check(str(ctx.guild.id), bot)
+    database_check(str(ctx.guild.id), bot)
 
     bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
     case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
@@ -159,7 +161,7 @@ def add_warn(member: discord.Member, ctx: Context, bot: Isaiah):
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['author']['name'] = ctx.author.user
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['id'] = ctx.author.id
 
-    bot.db['guilds'].close()
+    bot.dump("guilds")
 
 
 def add_mute(member: discord.Member, ctx: Context, duration: str, bot: Isaiah):
@@ -172,7 +174,7 @@ def add_mute(member: discord.Member, ctx: Context, duration: str, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    __database_check(str(ctx.guild.id), bot)
+    database_check(str(ctx.guild.id), bot)
 
     bot.db['guilds'][str(ctx.guild.id)]['case_num'] += 1
     case_num = bot.db['guilds'][str(ctx.guild.id)]['case_num']
@@ -194,10 +196,10 @@ def add_mute(member: discord.Member, ctx: Context, duration: str, bot: Isaiah):
 
     bot.db['guilds'][str(ctx.guild.id)]['cases'][str(case_num)]['duration'] = duration
 
-    bot.db['guilds'].close()
+    bot.dump("guilds")
 
 
-def __add_prefix_to_db(guild_id: str, bot: Isaiah):
+def add_prefix_to_db(guild_id: str, bot: Isaiah):
     """Adds a guild to the prefixes database
 
     Parameters:
@@ -205,12 +207,12 @@ def __add_prefix_to_db(guild_id: str, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    db["prefixes"][guild_id] = bot.__default_prefix
+    db["prefixes"][guild_id] = bot.default_prefix
 
-    db["prefixes"].close()
+    bot.dump("prefixes")
 
 
-def __prefix_check(guild_id: str, bot: Isaiah):
+def prefix_check(guild_id: str, bot: Isaiah):
     """Checks if a guild is registered for the guild's database.
 
     Parameters:
@@ -218,12 +220,12 @@ def __prefix_check(guild_id: str, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    __func_check(
-        str(guild.id) not in bot.db["prefixes"], __add_prefix_to_db, guild_id, bot
+    func_check(
+        str(guild.id) not in bot.db["prefixes"], add_prefix_to_db, guild_id, bot
     )
 
 
-def __set_prefix(prefix: str, guild_id: str, bot: Isaiah):
+def set_prefix(prefix: str, guild_id: str, bot: Isaiah):
     """Sets the prefix for a given guild
 
     Parameters:
@@ -231,12 +233,14 @@ def __set_prefix(prefix: str, guild_id: str, bot: Isaiah):
        guild_id: str - The guild you want the prefix to change for
        bot: Isaiah - The bot itself
     """
-    __prefix_check(str(ctx.guild.id), bot)
+    prefix_check(str(ctx.guild.id), bot)
 
     db["prefixes"][str(ctx.guild.id)] = prefix
 
+    bot.dump("prefixes")
 
-def __set_muted_role(muted_role_id: str, guild_id: str, bot: Isaiah):
+
+def set_muted_role(muted_role_id: str, guild_id: str, bot: Isaiah):
     """Sets the muted role for a guild.
 
     Parameters:
@@ -245,10 +249,10 @@ def __set_muted_role(muted_role_id: str, guild_id: str, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    __database_check(str(guild_id), bot)
+    database_check(str(guild_id), bot)
 
     self.bot.db["guilds"]["muted_role"] = muted_role_id
-    self.bot.db["guilds"].close()
+    bot.dump("guilds")
 
 async def get_muted_role(ctx: Context, bot: Isaiah):
     """Gets the muted role for a guild.
@@ -258,7 +262,7 @@ async def get_muted_role(ctx: Context, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
 
-    __database_check(str(guild_id), bot)
+    database_check(str(guild_id), bot)
 
     if 'muted_role' not in self.bot.db['guilds'][str(ctx.guild.id)]:
         role = await ctx.guild.create_role("Muted")
@@ -266,5 +270,19 @@ async def get_muted_role(ctx: Context, bot: Isaiah):
 
     role_id = self.bot.db['guilds'][str(ctx.guild.id)]['muted_role']
 
-    self.bot.db['guilds'].close()
+    bot.dump("guilds")
     return role_id
+
+async def set_banned_words(banned_words: list, guild_id: str, bot: Isaiah):
+    """Sets the banned words in a guild.
+    
+    Parameters:
+       banned_words: list - The list of banned terms.
+       guild_id: str - The guild that the list will affect.
+       bot: Isaiah - The bot itself  .   
+    """
+    database_check(str(guild_id), bot)
+
+    self.bot.db['guilds'][str(ctx.guild.id)]['banned_words'] = banned_words
+
+    bot.dump("guilds")

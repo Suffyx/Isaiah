@@ -22,16 +22,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.  
 --->
+
 <html>
   <head>
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="static/style.css" />
   </head>
-  <body>
-    <h1>Isaiah Dashboard!</h1>
+  <header id = "page-header">
+    <a href="../.."><img src='assets/favicon.ico'></a>
+    <center>
+      <h1>Isaiah Dashboard!</h1>
 
-    <h2>Isaiah is in: {{guild_count}} servers!</h2>
-    <hr>
+      <h2>Isaiah is in: {{guild_count}} servers!</h2>
+      <hr>
+    </center>
+  </header>
+  <body>
+    <script src="static/script.js"></script>
     <div class="">
       <h3>Hello, {{username}}! Please select a server to get started</h3>
       <hr />
@@ -53,6 +60,20 @@ SOFTWARE.
         </div>
         {% endfor %}
       </section>
+    </div>
+    <div class = "sidenav">
+      {% if not authorzed %}
+      <h1 class="sidebar-title"> Login:  </h1>
+      <hr>
+      <a href="/login"><button class="library-button"> Login </button></a>
+      {% else %}
+      <h1 class="sidebar-title"> Hubs:  </h1>
+      <hr>
+      <a href="/dashboard"><button> Open Dashboard </button></a>
+      {% endif %}
+      <h1 class="sidebar-title"> Theme: </h1>
+      <hr>
+      <button class="library-button" id="themeButton"> Change Theme</button>
     </div>
   </body>
 </html>

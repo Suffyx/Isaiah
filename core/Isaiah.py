@@ -35,14 +35,53 @@ from .Context import Context
 
 # from utils import __build_database
 
-def __recursive_object_builder(d):
+def func_check(check: bool, function: Callable, *args, **kwargs):
+    """Runs a function if a given check is valid.
+
+    Parameters:
+       check: bool - What is checked before the function is run
+       function: Callable - The function run if the check is True
+    """
+    if check:
+        function(args, kwargs)
+
+
+def add_guild_to_db(guild_id: str, bot):
+    """Adds a guild to the guilds database
+
+    Parameters:
+       guild_id: str - The guild you would like to check
+       bot: Isaiah - The bot itself
+    """
+    bot.db['guilds'][str(guild.id)] = {}
+    bot.db['guilds'][str(guild.id)]['cases'] = {}
+    bot.db['guilds'][str(guild.id)]['case_num'] = 0
+
+    bot.dump("guilds")
+    return
+
+
+def database_check(guild_id: str, bot):
+    """Checks if a guild is registered for the guild's database.
+
+    Parameters:
+       guild_id: str - The guild you would like to check
+       bot: Isaiah - The bot itself
+    """
+    func_check(
+        str(guild.id) not in bot.db["guilds"], add_guild_to_db, guild_id, bot
+    )
+
+    bot.dump("guilds")
+
+def recursive_object_builder(d):
     """Returns a dictionary as an object class.
 
     Parameters:
       d: dict - The dictionary whose keys and values will become an object.
     """
     if isinstance(d, list):
-        d = [__recursive_object_builder(x) for x in d]
+        d = [recursive_object_builder(x) for x in d]
 
     if not isinstance(d, dict):
         return d
@@ -53,7 +92,7 @@ def __recursive_object_builder(d):
     obj = Obj()
 
     for o in d:
-        obj.__dict__[o] = __recursive_object_builder(d[o])
+        obj.__dict__[o] = recursive_object_builder(d[o])
 
     return obj
 
@@ -91,17 +130,86 @@ class Isaiah(commands.AutoShardedBot):
         # makes sure that the database has all necessary attributes to run the bot properly
         #     __build_database(self.db)
 
+        self.loaded = {
+            "prefixes": False,
+            "guilds": False,
+            "users": False,
+        }
+
+        self.__db = {} # a dictionary to load databases from given that they are loaded.
+
         for ext in self.config.EXTENSIONS:
             self.load_extension(ext)
 
     @property
     def db(self):
         """Returns a dictionary of open shelves."""
-        return {
-            "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
-            "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
-            "users": shelve.open(self.config.USER_TABLE_PATH),
-        }
+        # return {
+        #     "prefixes": shelve.open(self.config.PREFIX_TABLE_PATH),
+        #     "guilds": shelve.open(self.config.GUILD_TABLE_PATH),
+        #     "users": shelve.open(self.config.USER_TABLE_PATH),
+        # }
+
+        _return = {}
+
+        if self.loaded["prefixes"]:
+
+            with open(self.config.PREFIX_TABLE_PATH, "r+") as f:
+                _dict = json.load(f)
+                _return["prefixes"] = _dict
+                self.loaded["prefixes"] = True
+                self.__db["prefixes"] = _dict
+
+        else:
+            _return["prefixes"] = self.__db["prefixes"]
+
+        if self.loaded["guilds"]:
+
+            with open(self.config.GUILD_TABLE_PATH, "r+") as f:
+               _dict = json.load(f)
+               _return["guilds"] = _dict
+               self.loaded["guilds"] = True
+               self.__db["guilds"] = _dict
+
+        else:
+            _return["guilds"] = self.__db["guilds"]
+
+        if self.loaded["users"]:
+
+            with open(self.config.USER_TABLE_PATH, "r+") as f:
+               _dict = json.load(f)
+               _return["users"] = _dict
+               self.loaded["users"] = True
+               self.__db["users"] = _dict
+
+        else:
+            _return["users"] = self.__db["users"]
+
+        return _return
+
+    def dump(self, db: str):
+        """Dumps a given database table from the Isaiah.db property.
+        
+        Parameters:
+            db: str - The database to be dumped.
+        """
+        if db == "prefixes":
+            with open(self.config.PREFIX_TABLE_PATH, "w+") as f:
+                json.dump(self.db["prefixes"], f)
+                self.loaded["prefixes"] = False
+                del self.__db["prefixes"]
+
+        elif db == "guilds":
+            with open(self.config.GUILD_TABLE_PATH, "w+") as f:
+                json.dump(self.db["guilds"], f)
+                self.loaded["guilds"] = False
+                del self.__db["guilds"]
+
+        elif db == "users":
+            with open(self.config.USER_TABLE_PATH, "w+") as f:
+                json.dump(self.db["users"], f)
+                self.loaded["users"] = False
+                del self.__db["users"]
 
     @property
     def config(self):
@@ -110,7 +218,7 @@ class Isaiah(commands.AutoShardedBot):
         if self.__config_state:
             return self.__config
         with open(os.getenv("CONFIG_PATH")) as f:
-            config_obj = __recursive_object_builder(json.load(f))
+            config_obj = recursive_object_builder(json.load(f))
 
         self.__config_state = True
         self.__config = config_obj
@@ -161,4 +269,27 @@ class Isaiah(commands.AutoShardedBot):
         Parameters:
            message: discord.Message - The message registered by the listener.
         """
+        database_check(str(message.guild.id), self)
+        for word in self.db["guilds"][str(message.guild.id)]['banned_words']:
+            if word in message.content.lower():
+                await message.delete()
+
+                await message.channel.send(
+                    embed = discord.Embed(
+                        description="🚫  Message deleted for banned words. 🚫",
+                        color=discord.Colour.red(),
+                    ),
+                    delete_after = 3
+                )
+
+                await message.author.send(
+                    embed = discord.Embed(
+                        title="🚫  Such language is not permitted. 🚫",
+                        description=message.content,
+                        color=discord.Colour.red(),
+                    ),
+                )
+
+                # await self.raise_banned_word()
+
         await self.process_commands(message)

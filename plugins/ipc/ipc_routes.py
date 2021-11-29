@@ -33,14 +33,14 @@ class Login(commands.Cog):
     """Initialize Login Cog
 
     Parameters:
-       bot: Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/ipc/__init__.py
+       bot: Isaiah - The bot on which the cog is loaded. Passed by setup function in plugins/ipc/init.py
     """
 
-    def __init__(self, bot: Isaiah):
+    def init(self, bot: Isaiah):
         self.bot = bot
 
     @ipc.server.route()
-    async def get_guild_ids(self, data):
+    async def _get_guild_ids(self, data):
         """Returns the an array of id's pertaining to guilds that the bot is in.
 
         Parameters:
@@ -54,7 +54,7 @@ class Login(commands.Cog):
         return guild_ids
 
     @ipc.server.route()
-    async def get_guild(self, data):
+    async def _get_guild(self, data):
         """Returns a list json object of a guild from a given id.
 
         Parameters:
@@ -67,12 +67,12 @@ class Login(commands.Cog):
         return {
             "name": guild.name,
             "id": guild.id,
-            "prefix": __get_guild_prefix(guild.id),
+            "prefix": get_guild_prefix(guild.id),
             "member_count": guild.member_count,
         }
 
     @ipc.server.route()
-    async def get_roles(self, data):
+    async def _get_roles(self, data):
         """Gets the roles for a given guild.
 
         Parameters:
@@ -93,7 +93,7 @@ class Login(commands.Cog):
         return role_ids
 
     @ipc.server.route()
-    async def get_role(self, data):
+    async def _get_role(self, data):
         """Returns information on a role of a given id in a given guild
 
         Parameters:
@@ -118,7 +118,7 @@ class Login(commands.Cog):
                 }
 
     @ipc.server.route()
-    async def get_guild_count(self, data):
+    async def _get_guild_count(self, data):
         """Sets the prefix for a guild of a given ID given that the prefix is correct. Can only be sent by discord.ext.ipc.Client request from an authorized user (an Administrator within the given guild.)
 
         Parameters:
@@ -127,7 +127,7 @@ class Login(commands.Cog):
         return len(self.bot.guilds)
 
     @ipc.server.route()
-    async def set(self, data):
+    async def _set(self, data):
         """Sets the prefix for a guild of a given ID given that the prefix is correct. Can only be sent by discord.ext.ipc.Client request from an authorized user (an Administrator within the given guild.)
 
         Parameters:
@@ -136,8 +136,7 @@ class Login(commands.Cog):
         Data attribute "opt" options:
            prefix: str - Sets the attribute option to change the prefix of a guild
            muted_role: str - Sets the attribute option to change the muted role of a guild
-           # banned_words: str - Sets the attribute option to change the banned words of a guild
-           # reaction_roles: str - Sets the attribute option to add or remove the reaction roles of a guild. More information on reaction role formatting can be found at <https://Suffyx.github.io/Isaiah/reaction_roles/>
+           banned_words: str - Sets the attribute option to change the banned words of a guild
         """
         if data.opt is None:
             return None
@@ -146,7 +145,7 @@ class Login(commands.Cog):
             if data.prefix is None or data.guild_id is None:
                 return None
 
-            utils.__set_prefix(data.prefix, data.guild_id)
+            utils.set_prefix(data.prefix, data.guild_id)
 
             return {"status": "Success"}
 
@@ -154,4 +153,20 @@ class Login(commands.Cog):
             if data.guild_id is None or data.role_id is None:
                 return None
 
-            utils.__set_muted_role(data.role_id, data.guild_id)
+            utils.set_muted_role(data.role_id, data.guild_id)
+
+            return {"status": "Success"}
+
+        if data.opt == "banned_words":
+            if data.guild_id is None or data.role_id is None:
+                return None
+
+            if data.banned_words is not list:
+                try: # try to convert the banned words string to a list.
+                    data.banned_words = list(data.banned_words)
+                except:
+                    return {"status": "Failure"}
+
+            utils.set_banned_words(data.banned_words, data.guild_id)
+
+            return {"status": "Success"}

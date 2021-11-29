@@ -17,7 +17,7 @@ bot = Isaiah()
 
 __**Context Class Usage**__
 ```py
-@bot.command()
+@bot.slash_command()
 async def hi(ctx: Context):
     """Returns hello.
     
@@ -27,7 +27,7 @@ async def hi(ctx: Context):
     if ctx.message.content != "hi":
       return ctx.error("Error: Does not compute")
     
-    return ctx.send("Hello!")
+    return ctx.respond("Hello!")
 ```
 
 __**Basic Usage**__
@@ -37,7 +37,7 @@ from core import Context
 
 bot = Isaiah()
 
-@bot.command()
+@bot.slash_command()
 async def hi(ctx: Context):
     """Returns hello.
     
@@ -47,6 +47,6 @@ async def hi(ctx: Context):
     if ctx.message.content != "hi":
       return ctx.error("Error: Does not compute")
     
-    return ctx.send("Hello!")
+    return ctx.respond("Hello!")
 ```
 

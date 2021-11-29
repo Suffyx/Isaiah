@@ -158,5 +158,6 @@ class ApplicationContext(discord.abc.Messageable):
                 title="Command Error",
                 description=f"```{content}```",
                 color=discord.Colour.red(),
-            )
+            ),
+            ephemeral=True
         )

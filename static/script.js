@@ -27,3 +27,20 @@ window.onscroll = function() {
     document.getElementById("page-header").classList.remove("sticky");
   }
 }
+
+//allow switches from light and dark mode on website
+
+const switcher = document.querySelector('#themeButton');
+
+switcher.addEventListener('click', function() {
+    document.body.classList.toggle('dark-theme')
+
+    var className = document.body.className;
+    if(className == "light-theme") {
+        this.textContent = "Dark";
+    }
+    else {
+        this.textContent = "Light";
+    }
+
+});
