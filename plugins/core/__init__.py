@@ -26,7 +26,7 @@ from core import Isaiah
 
 from plugins.core.error import ErrorHandler
 from plugins.core.startup import Login
-from plugins.core.help import HelpCommand
+# from plugins.core.help import HelpCommand
 
 
 def setup(bot: Isaiah):
@@ -37,4 +37,4 @@ def setup(bot: Isaiah):
     """
     bot.add_cog(ErrorHandler(bot))
     bot.add_cog(Login(bot))
-    bot.add_cog(HelpCommand(bot))
+#     bot.add_cog(HelpCommand(bot))
