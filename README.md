@@ -11,6 +11,7 @@ An all use Discord bot written in Python.
 - [X] Write dashboard in Quart
 - [X] Make base web templates for Quart
 - [ ] Finish moderation commands
+- [ ] Properly impliment permissions
 - [X] Ensure that all code in within black style guidelines
 - [X] Ensure that all files contain necessary licensing header
 - [X] Create Gitub pages
