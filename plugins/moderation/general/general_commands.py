@@ -27,6 +27,7 @@ import asyncio
 
 import discord
 from discord.ext import commands
+from discord.commands import slash_command, Option
 
 from durations import Duration
 
@@ -41,6 +42,7 @@ from constants import WARN_COMMAND
 from constants import MUTE_COMMAND
 
 from constants import DEFAULT_REASON
+from constants import DEFAYLT_DURATION
 from constants import Colour
 
 
@@ -99,14 +101,14 @@ class GeneralCommands(commands.Cog):
     def __init__(self, bot: Isaiah):
         self.bot = bot
 
-    @commands.command(BAN_COMMAND)
+    @slash_command(BAN_COMMAND)
     @commands.has_permissions(ban_members=True)
     async def _ban(
         self,
         ctx: Context,
-        member: typing.Union[discord.Member, str],
+        member: Option(discord.Member, "The member you want to ban.")
         *,
-        reason: str = None,
+        reason: Option(str, "The reason for the ban", required=False, default=DEFAULT_REASON)
     ):
         """Bans a given member for a given reason
 
@@ -115,8 +117,6 @@ class GeneralCommands(commands.Cog):
            member: typing.Union[discord.Member, str] - The member that will be banned
            reason: str - The reason the member will be banned for. Defaults to constants.DEFAULT_REASON
         """
-        if reason is None:
-            reason = DEFAULT_REASON
 
         if member.id == ctx.author.id:
             await ctx.error("You cannot ban yourself.")
@@ -128,7 +128,7 @@ class GeneralCommands(commands.Cog):
 
         id = utils.add_ban(member, ctx, self.bot)
 
-        await ctx.send(
+        await ctx.respond(
             embed=discord.Embed(
                 description=f"**{member.user}** banned successfully.", color=Colour.RED
             )
@@ -141,14 +141,14 @@ class GeneralCommands(commands.Cog):
             )
         )
 
-    @commands.command(KICK_COMMAND)
+    @slash_command(KICK_COMMAND)
     @commands.has_permissions(kick_members=True)
     async def _kick(
         self,
         ctx: Context,
-        member: typing.Union[discord.Member, str],
+        member: Option(discord.Member, "The member you want to kick.")
         *,
-        reason: str = None,
+        reason: Option(str, "The reason for the kick", required=False, default=DEFAULT_REASON)
     ):
         """Kicks a given member for a given reason
 
@@ -157,8 +157,6 @@ class GeneralCommands(commands.Cog):
            member: typing.Union[discord.Member, str] - The member that will be kicked
            reason: str - The reason the member will be kicked for. Defaults to constants.DEFAULT_REASON
         """
-        if reason is None:
-            reason = DEFAULT_REASON
 
         if member.id == ctx.author.id:
             await ctx.error("You cannot kick yourself.")
@@ -183,14 +181,14 @@ class GeneralCommands(commands.Cog):
             )
         )
 
-    @commands.command(WARN_COMMAND)
+    @slash_command(WARN_COMMAND)
     @commands.has_permissions(manage_messages=True)
     async def _warn(
         self,
         ctx: Context,
-        member: typing.Union[discord.Member, str],
+        member: Option(discord.Member, "The member you want to warn.")
         *,
-        reason: str = None,
+        reason: Option(str, "The reason for the warn", required=False, default=DEFAULT_REASON)
     ):
         """Warns a given member for a given reason
 
@@ -199,15 +197,13 @@ class GeneralCommands(commands.Cog):
            member: typing.Union[discord.Member, str] - The member that will be warned
            reason: str - The reason the member will be warned for. Defaults to constants.DEFAULT_REASON
         """
-        if reason is None:
-            reason = DEFAULT_REASON
 
         if member.id == ctx.author.id:
             await ctx.error("You cannot warn yourself.")
 
         id = utils.add_warn(member, ctx)
 
-        await ctx.send(
+        await ctx.respond(
             embed=discord.Embed(
                 description=f"**{member.user}** warned successfully.", color=Colour.RED
             )
@@ -215,20 +211,20 @@ class GeneralCommands(commands.Cog):
 
         await member.send(
             embed=discord.Embed(
-                description=f"You've been kicked in **{ctx.guild}** for **{reason}**",
+                description=f"You've been warned in **{ctx.guild}** for **{reason}**",
                 color=Colour.RED,
             )
         )
 
-    @commands.command(MUTE_COMMAND)
+    @slash_command(MUTE_COMMAND)
     @commands.has_permissions(kick_members=True)
     async def _mute(
         self,
         ctx: Context,
         member: typing.Union[discord.Member, str],
-        duration: str = None,
+        duration: reason: Option(str, "The duration of the mute.", required=False, default=DEFAULT_DURATION)
         *,
-        reason: str = None,
+        reason: Option(str, "The reason for the ban", required=False, default=DEFAULT_REASON)
     ):
         """Kicks a given member for a given reason
 
@@ -238,11 +234,6 @@ class GeneralCommands(commands.Cog):
            reason: str - The reason the member will be muted for. Defaults to constants.DEFAULT_REASON
            duration: str - The duration that the member will be muted for. Defaults to Isaiah.config.DEFAULT_DURATION
         """
-        if reason is None:
-            reason = DEFAULT_REASON
-
-        if duration is None:
-            duration = self.bot.config.DEFAULT_DURATION
 
         if member.id == ctx.author.id:
             await ctx.error("You cannot mute yourself.")
@@ -256,9 +247,8 @@ class GeneralCommands(commands.Cog):
 
         id = utils.add_mute(member, ctx)
 
-        await asyncio.sleep(Duration(duration).to_seconds())
 
-        await ctx.send(
+        await ctx.respond(
             embed=discord.Embed(
                 description=f"**{member.user}** muted successfully.", color=Colour.RED
             )
@@ -268,6 +258,15 @@ class GeneralCommands(commands.Cog):
             embed=discord.Embed(
                 description=f"You've been muted in {ctx.guild} for {reason}. You will be unmuted in {duration}",
                 color=Colour.RED,
+            )
+        )
+        
+        await asyncio.sleep(Duration(duration).to_seconds())
+        
+        await member.send(
+            embed=discord.Embed(
+                description=f"You've been unmuted in {ctx.guild} after {duration}.",
+                color=Colour.GREEN,
             )
         )
         
