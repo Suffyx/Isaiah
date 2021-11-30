@@ -42,7 +42,7 @@ from constants import WARN_COMMAND
 from constants import MUTE_COMMAND
 
 from constants import DEFAULT_REASON
-from constants import DEFAYLT_DURATION
+from constants import DEFAULT_DURATION
 from constants import Colour
 
 
@@ -106,7 +106,7 @@ class GeneralCommands(commands.Cog):
     async def _ban(
         self,
         ctx: Context,
-        member: Option(discord.Member, "The member you want to ban.")
+        member: Option(discord.Member, "The member you want to ban."),
         *,
         reason: Option(str, "The reason for the ban", required=False, default=DEFAULT_REASON)
     ):
@@ -146,7 +146,7 @@ class GeneralCommands(commands.Cog):
     async def _kick(
         self,
         ctx: Context,
-        member: Option(discord.Member, "The member you want to kick.")
+        member: Option(discord.Member, "The member you want to kick."),
         *,
         reason: Option(str, "The reason for the kick", required=False, default=DEFAULT_REASON)
     ):
@@ -186,7 +186,7 @@ class GeneralCommands(commands.Cog):
     async def _warn(
         self,
         ctx: Context,
-        member: Option(discord.Member, "The member you want to warn.")
+        member: Option(discord.Member, "The member you want to warn."),
         *,
         reason: Option(str, "The reason for the warn", required=False, default=DEFAULT_REASON)
     ):
@@ -221,8 +221,8 @@ class GeneralCommands(commands.Cog):
     async def _mute(
         self,
         ctx: Context,
-        member: typing.Union[discord.Member, str],
-        duration: reason: Option(str, "The duration of the mute.", required=False, default=DEFAULT_DURATION)
+        member: Option(discord.Member, "The member you want to mute."),
+        duration: Option(str, "The duration of the mute.", required=False, default=DEFAULT_DURATION),
         *,
         reason: Option(str, "The reason for the ban", required=False, default=DEFAULT_REASON)
     ):
@@ -269,8 +269,3 @@ class GeneralCommands(commands.Cog):
                 color=Colour.GREEN,
             )
         )
-        
-#        if member.name.lower().endswith("s") === False:
-#          name = member.name+"'s" 
-#        else:
-#          name = member.name+"'"

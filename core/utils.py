@@ -46,13 +46,39 @@ def add_guild_to_db(guild_id: str, bot: Isaiah):
        guild_id: str - The guild you would like to check
        bot: Isaiah - The bot itself
     """
-    bot.db['guilds'][str(guild.id)] = {}
-    bot.db['guilds'][str(guild.id)]['cases'] = {}
-    bot.db['guilds'][str(guild.id)]['case_num'] = 0
+    bot.db['guilds'][str(guild_id)] = {}
+    bot.db['guilds'][str(guild_id)]['cases'] = {}
+    bot.db['guilds'][str(guild_id)]['case_num'] = 0
 
     bot.dump("guilds")
     return
 
+def add_user_to_db(user_id: str, bot: Isaiah):
+    """Adds a user to the users database
+
+    Parameters:
+       user_id: str - The user you would like to check
+       bot: Isaiah - The bot itself
+    """
+    bot.db['users'][str(user_id)] = {}
+    bot.db['users'][str(user_id)]['notes'] = {}
+    bot.db['users'][str(user_id)]['note_id'] = 1
+
+    bot.dump("users")
+    return
+
+def user_database_check(user_id: str, bot: Isaiah):
+    """Checks if a guild is registered for the user's database.
+
+    Parameters:
+       user_id: str - The user you would like to check
+       bot: Isaiah - The bot itself
+    """
+    func_check(
+        str(user_id) not in bot.db["guilds"], add_user_to_db, user_id, bot
+    )
+
+    bot.dump("guilds")
 
 def database_check(guild_id: str, bot: Isaiah):
     """Checks if a guild is registered for the guild's database.
@@ -62,7 +88,7 @@ def database_check(guild_id: str, bot: Isaiah):
        bot: Isaiah - The bot itself
     """
     func_check(
-        str(guild.id) not in bot.db["guilds"], add_guild_to_db, guild_id, bot
+        str(guild_id) not in bot.db["guilds"], add_guild_to_db, guild_id, bot
     )
 
     bot.dump("guilds")
@@ -273,6 +299,39 @@ async def get_muted_role(ctx: Context, bot: Isaiah):
     bot.dump("guilds")
     return role_id
 
+def get_modlogs(member: discord.Member, guild_id: str, bot: Isaiah):
+    database_check(str(guild_id), bot)
+
+    embeds = []
+
+    embed = discord.Embed(
+    ).set_footer(text=f"Modlogs for {member.name}#{member.discriminator} - {member.id}")
+
+    for _case in self.bot.db['guilds'][str(guild_id)]['cases']:
+        if self.bot.db['guilds'][str(guild_id)]['cases'][_case]['author']['id'] == str(member.id):
+            case = self.bot.db['guilds'][str(guild_id)]['cases'][_case]
+
+            value_str = f"**Type**: {case['type']}"  + f"**User**: {member.name}" + f"\t**Moderator**: {case['author']['name']}" + f"**Reason**: {case['reason']}"
+
+            if case['type'] == 'mute':
+                value_str += f"\n**Length**: {case['duration']}"
+
+            embed.add_field(
+                name = f"Case {_case}",
+                value = value_str,
+                inline=False
+            )
+
+            if len(embed.fields) > 10:
+                embeds.append(embed)
+                
+                embed = discord.Embed(
+                ).set_footer(text=f"Modlogs for {member.name}#{member.discriminator} - {member.id}")
+
+
+    return embeds if len(embeds) > 1 else embeds[0]
+
+
 async def set_banned_words(banned_words: list, guild_id: str, bot: Isaiah):
     """Sets the banned words in a guild.
     
@@ -286,3 +345,56 @@ async def set_banned_words(banned_words: list, guild_id: str, bot: Isaiah):
     self.bot.db['guilds'][str(ctx.guild.id)]['banned_words'] = banned_words
 
     bot.dump("guilds")
+
+def get_case(guild_id: str, bot, _case: int):
+    database_check(str(guild_id), bot)
+    case = self.bot.db['guilds'][str(guild_id)]['cases'][_case]
+
+    value_str = f"**Type**: {case['type']}"  + f"**User**: {member.name}" + f"\t**Moderator**: {case['author']['name']}" + f"**Reason**: {case['reason']}"
+
+    if case['type'] == 'mute':
+        value_str += f"\n**Length**: {case['duration']}"
+
+    return discord.Embed(
+        title = f"Case {_case}",
+        description=value_str,
+        color=discord.Colour.green()
+    )
+
+def make_note(ctx, user_id: str, note: str, bot):
+    user_database_check(str(user_id), bot)
+
+    note_id = self.bot.db["users"][user_id]['note_id'] + 1 if self.bot.db["users"][user_id]['note_id'] > 0 else 1
+    self.bot.db["users"][user_id]['note_id'] = note_id
+
+    self.bot.db["users"][user_id]['notes'][note_id] = {}
+    self.bot.db["users"][user_id]['notes'][note_id]['author'] = {}
+    self.bot.db["users"][user_id]['notes'][note_id]['author']['id'] = ctx.author.id
+    self.bot.db["users"][user_id]['notes'][note_id]['author']['name'] = ctx.author.name
+    self.bot.db["users"][user_id]['notes'][note_id]['content'] = note
+
+    bot.dump("users")
+
+def get_notes(member: discord.Member, bot):
+    database_check(str(member.id), bot)
+
+    embeds = []
+
+    embed = discord.Embed(
+    ).set_footer(text=f"Notes for {member.name}#{member.discriminator} - {member.id}")
+
+    for _note in self.bot.db["users"][str(member.id)]:
+        note = self.bot.db["users"][str(member.id)][_note]
+
+        value_str = f"**Note**: {note['content']}\n" + f"\t**Author**: {note['author']['name']} - {note['author']['id']}"
+
+        embed.add_field(name=f"Note {_note}", value=value_str, inline=False)
+
+        if len(embed.fields) > 10:
+            embeds.append(embed)
+            
+            embed = discord.Embed(
+            ).set_footer(text=f"Notes for {member.name}#{member.discriminator} - {member.id}")
+
+
+    return embeds if len(embeds) > 1 else embeds[0]
