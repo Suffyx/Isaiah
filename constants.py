@@ -52,6 +52,26 @@ HELP_COMMAND = {
     "description": "Returns a list of commands or information on a specific command.",
 }
 
+MODLOGS_COMMAND = {
+    "name": "modlogs",
+    "description": "Returns the moderation logs for a user."
+}
+
+CASE_COMMAND = {
+    "name": "case",
+    "description": "Returns information on a case."
+}
+
+NOTE_COMMAND = {
+    "name": "note",
+    "description": "Makes a note on a user."
+}
+
+NOTES_COMMAND = {
+    "name": "notes",
+    "description": "Returns the notes on a user."
+}
+
 class Colour:
     RED = 0xE34E3D
     GREEN = 0x32A852
