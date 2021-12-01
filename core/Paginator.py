@@ -37,8 +37,11 @@ class Paginator():
         self.message = None
 
         next = Button(label = "Next", style = discord.ButtonStyle.green, emoji = "➡️", custom_id = "next")
+        next.callback = self.next_page
         back = Button(label = "Back", style = discord.ButtonStyle.red, emoji="⬅️", custom_id = "back")
+        back.callback = self.prev_page
         close = Button(label = "Close", style = discord.ButtonStyle.gray, emoji="🔒", custom_id = "close")
+        close.callback = self.close
 
         self.view = View(timeout=timeout)
         self.view.add_item(next)
