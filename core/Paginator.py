@@ -55,7 +55,7 @@ class Paginator():
         self.message = message
 
     async def next_page(self, interaction):
-        self.index += 1 if self.index <= len(pages) - 1 else 0
+        self.index += 1 if self.index < len(pages) - 1 else 0
         await self.message.edit(
             embed = self.pages[self.index],
             view=self.view
